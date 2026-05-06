@@ -12,6 +12,8 @@
     "format:check": "prettier --check .",
     "lint": "nx run-many --target=lint --all",
     "test": "nx run-many --target=test --all",
+    "nx": "nx",
+    "serve": "nx serve my-app",
     "build": "nx run-many --target=build --all --parallel=3"
   },
   "private": true,
