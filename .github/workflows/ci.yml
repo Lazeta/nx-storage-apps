@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+env:
+  NODE_VERSION: '22'
+  PNPM_VERSION: '9'
+
+jobs:
+  ci:
+    name: Lint, Test & Build (affected)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # нужно для nx affected
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Set NX SHAs for affected
+        uses: nrwl/nx-set-shas@v4
+
+      - name: Lint affected
+        run: pnpm exec nx affected --target=lint --parallel=3
+
+      - name: Test affected
+        run: pnpm exec nx affected --target=test --parallel=3
+
+      - name: Build affected
+        run: pnpm exec nx affected --target=build --parallel=3
