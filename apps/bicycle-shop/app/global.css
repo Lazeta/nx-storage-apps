@@ -1,0 +1,12 @@
+@import 'tailwindcss';
+
+/* can be later moved to libs/ui/styles when we want to use the same design tokens in two or more places for reuse */
+@theme {
+  --color-brand-50: #f0fdf4;
+  --color-brand-100: #dcfce7;
+  --color-brand-500: #22c55e;
+  --color-brand-600: #16a34a;
+  --color-brand-900: #14532d;
+
+  --font-sans: 'Inter', system-ui, sans-serif;
+}

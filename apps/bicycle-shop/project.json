@@ -1,0 +1,56 @@
+{
+  "name": "bicycle-shop",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/bicycle-shop",
+  "projectType": "application",
+  "tags": ["scope:bicycle-shop", "type:app"],
+  "targets": {
+    "build": {
+      "executor": "@nx/next:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/bicycle-shop"
+      },
+      "configurations": {
+        "production": {
+          "outputPath": "dist/apps/bicycle-shop"
+        }
+      },
+      "test": {
+        "executor": "@nx/vite:test",
+        "outputs": ["{workspaceRoot}/coverage/apps/bicycle-shop"],
+        "options": {
+          "configFile": "apps/bicycle-shop/vitest.config.ts"
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/next:server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "bicycle-shop:build",
+        "dev": true
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "bicycle-shop:build:development",
+          "dev": true
+        },
+        "production": {
+          "buildTarget": "bicycle-shop:build:production",
+          "dev": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc --noEmit -p tsconfig.json",
+        "cwd": "apps/bicycle-shop"
+      }
+    }
+  }
+}
